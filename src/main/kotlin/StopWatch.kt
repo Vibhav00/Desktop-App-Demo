@@ -1,7 +1,9 @@
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+
 import kotlinx.coroutines.*
+import java.text.SimpleDateFormat
 import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -33,7 +35,9 @@ class StopWatch {
                 timeMillis += System.currentTimeMillis() - lastTimestamp
                 lastTimestamp = System.currentTimeMillis()
                 formattedTime = formatTime(timeMillis)
+
             }
+
         }
     }
 
@@ -56,14 +60,16 @@ class StopWatch {
 
 
     /** function to format time in mm:ss:SSS  **/
-    private fun formatTime(timeMillies: Long): String {
+    private fun formatTime(timeMillis: Long): String {
         val localDateTime = LocalDateTime.ofInstant(
-            Instant.ofEpochMilli(timeMillies),
-            ZoneId.systemDefault()
-
+            Instant.ofEpochMilli(timeMillis), ZoneId.of("UTC")
         )
         val formatter = DateTimeFormatter.ofPattern("mm:ss:SSS", Locale.getDefault())
-
-        return  localDateTime.format(formatter)
+        return localDateTime.format(formatter)
+        /** same thing can be done by   **/
+//        var date = Date(timeMillis)
+//        var sdf= SimpleDateFormat("mm:ss:SSS")
+//        sdf.timeZone= TimeZone.getTimeZone("UTC")
+//        return sdf.format(date)
     }
 }
